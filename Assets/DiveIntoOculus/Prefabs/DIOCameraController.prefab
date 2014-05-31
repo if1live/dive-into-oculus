@@ -56,7 +56,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100006
 GameObject:
   m_ObjectHideFlags: 1
@@ -112,7 +112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100012
 GameObject:
   m_ObjectHideFlags: 1
@@ -128,6 +128,23 @@ GameObject:
   m_Layer: 0
   m_Name: CameraLeft
   m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100014
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400014}
+  - 114: {fileID: 11400020}
+  - 131: {fileID: 13100000}
+  m_Layer: 0
+  m_Name: Dive Tracking Technologies Logo
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,11 +180,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.100000024, z: -.100000001}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
   - {fileID: 400002}
+  - {fileID: 400014}
   m_Father: {fileID: 400008}
   m_RootOrder: 0
 --- !u!4 &400006
@@ -222,6 +240,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400010}
   m_RootOrder: 0
+--- !u!4 &400014
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100014}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .5, y: .5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400004}
+  m_RootOrder: 2
 --- !u!20 &2000000
 Camera:
   m_ObjectHideFlags: 1
@@ -630,6 +660,17 @@ MonoBehaviour:
   NeckPosition: {x: 0, y: .600000024, z: 0}
   EyePosition: {x: 0, y: .150000006, z: .0900000036}
   RightEye: 0
+--- !u!114 &11400020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9fa81cacf2c672449039867dfa9a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
@@ -658,6 +699,25 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_Enabled: 1
+--- !u!131 &13100000
+GUITexture:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100014}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: 0a9f76db7b5940f4fae5c431d24c3163, type: 3}
+  m_Color: {r: .501960814, g: .501960814, b: .501960814, a: 0}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 128
+    height: 58
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

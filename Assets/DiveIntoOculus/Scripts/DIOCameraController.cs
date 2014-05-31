@@ -11,7 +11,7 @@ public class DIOCameraController : MonoBehaviour {
 		OculusCamera = transform.Find ("OVRCameraController").gameObject;
 
 #if UNITY_ANDROID
-		UseDiveMode();
+		//UseDiveMode();
 #elif UNITY_IPHONE
 		UseDiveMode();
 #else
