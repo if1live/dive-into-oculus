@@ -48,28 +48,22 @@ public class OpenDiveSensor : MonoBehaviour {
 	
 
 	void Update() {
+		float q0 = 0, q1 = 0, q2 = 0, q3 = 0;
 #if UNITY_EDITOR
 #elif UNITY_ANDROID
-		float q0 = 0, q1 = 0, q2 = 0, q3 = 0;
 		process();
-
-		Quaternion rot;
 		get_q(ref q0,ref q1,ref q2,ref q3);
-		rot.x=-q2;rot.y=q3;rot.z=-q1;rot.w=q0;
-		transform.rotation = rot;
 #elif UNITY_IPHONE
-		float q0 = 0, q1 = 0, q2 = 0, q3 = 0;
 		DiveUpdateGyroData();
 		get_q(ref q0,ref q1,ref q2,ref q3);
-
-		Quaternion rot;
-		rot.x=-q2;
-		rot.y=q3;
-		rot.z=-q1;
-		rot.w=q0;
-		transform.rotation = rot;
 #endif
 
+		Quaternion rot;
+		rot.x = -q2;
+		rot.y = q3;
+		rot.z = -q1;
+		rot.w = q0;
+		transform.rotation = rot;
 	}
 
 	void OnGUI() {
