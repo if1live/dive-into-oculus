@@ -50,14 +50,13 @@ GameObject:
   - 4: {fileID: 400006}
   - 81: {fileID: 8100006}
   - 114: {fileID: 11400002}
-  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: Dive_Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -230,24 +229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9db6421691659684d915086e04c493c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 145e22e89d44f76408d656f0801e651a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axes: 0
-  sensitivityX: 15
-  sensitivityY: 15
-  minimumX: -360
-  maximumX: 360
-  minimumY: -60
-  maximumY: 60
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
