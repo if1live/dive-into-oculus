@@ -20,12 +20,11 @@ public class CameraEditorWindow : Editor {
 	public override void OnInspectorGUI() {
 		GUI.color = Color.white;
 
-		Undo.RecordObject(component, "OVRCameraController");
+		Undo.RecordObject(component, "DIOCameraController");
 		{
 #if CUSTOM_LAYOUT
-			OVREditorGUIUtility.Separator();	
 			component.cameraMode = (CameraMode)EditorGUILayout.EnumPopup("Editor Camera Mode", component.cameraMode);
-			OVREditorGUIUtility.Separator();	
+			//OVREditorGUIUtility.Separator();	
 #else
 			DrawDefaultInspector ();
 #endif
