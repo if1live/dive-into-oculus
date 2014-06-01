@@ -1,21 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+public enum CameraMode {
+	SideBySide = 0,	//for durovis dive
+	OculusRift = 1,	//with barrel distortion
+}
+
 public class DIOCameraController : MonoBehaviour {
-	private GameObject OculusCamera;
-	private GameObject DiveCamera;
+	public CameraMode cameraMode = CameraMode.OculusRift;
 
 	// Use this for initialization
 	void Start () {
-		DiveCamera = transform.Find ("Dive_Camera").gameObject;
-		OculusCamera = transform.Find ("OVRCameraController").gameObject;
-
-#if UNITY_ANDROID
-		//UseDiveMode();
+#if UNITY_EDITOR
+		SetCameraMode(cameraMode);
+#elif UNITY_ANDROID
+		SetCameraMode(CameraMode.SideBySide);
 #elif UNITY_IPHONE
-		UseDiveMode();
+		SetCameraMode(CameraMode.SideBySide);	
+#elif UNITY_STANDALONE
+		SetCameraMode(CameraMode.OculusRift);
 #else
-		UseOculusMode();
+#error "unknown platform"
 #endif
 	}
 
@@ -24,12 +30,20 @@ public class DIOCameraController : MonoBehaviour {
 	
 	}
 
-	void UseOculusMode() {
-		OculusCamera.SetActive(true);
-		DiveCamera.SetActive(false);
-	}
-	void UseDiveMode() {
-		OculusCamera.SetActive(false);
-		DiveCamera.SetActive(true);
+	void SetCameraMode(CameraMode mode) {
+		GameObject diveCamera = transform.Find ("Dive_Camera").gameObject;
+		GameObject oculusCamera = transform.Find ("OVRCameraController").gameObject;
+
+		switch (mode) {
+		case CameraMode.SideBySide:
+			oculusCamera.SetActive(false);
+			diveCamera.SetActive(true);
+			break;
+
+		case CameraMode.OculusRift:
+			oculusCamera.SetActive(true);
+			diveCamera.SetActive(false);
+			break;
+		}
 	}
 }
