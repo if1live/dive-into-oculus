@@ -713,7 +713,7 @@ GUITexture:
     x: 0
     y: 0
     width: 128
-    height: 58
+    height: 64
   m_LeftBorder: 0
   m_RightBorder: 0
   m_TopBorder: 0
