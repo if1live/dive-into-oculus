@@ -5,21 +5,26 @@ using System.Collections;
 public enum CameraMode {
 	SideBySide = 0,	//for durovis dive
 	OculusRift = 1,	//with barrel distortion
+	MeshBarrelDistortion,
 }
 
 public class DIOCameraController : MonoBehaviour {
-	public CameraMode cameraMode = CameraMode.OculusRift;
+	public CameraMode editorCameraMode = CameraMode.OculusRift;
+	public CameraMode androidCameraMode = CameraMode.SideBySide;
+	public CameraMode iosCameraMode = CameraMode.SideBySide;
+	public CameraMode desktopCameraMode = CameraMode.OculusRift;
+
 
 	// Use this for initialization
 	void Start () {
 #if UNITY_EDITOR
-		SetCameraMode(cameraMode);
+		SetCameraMode(editorCameraMode);
 #elif UNITY_ANDROID
-		SetCameraMode(CameraMode.SideBySide);
+		SetCameraMode(androidCameraMode);
 #elif UNITY_IPHONE
-		SetCameraMode(CameraMode.SideBySide);	
+		SetCameraMode(iosCameraMode);
 #elif UNITY_STANDALONE
-		SetCameraMode(CameraMode.OculusRift);
+		SetCameraMode(desktopCameraMode);
 #else
 #error "unknown platform"
 #endif
@@ -43,6 +48,16 @@ public class DIOCameraController : MonoBehaviour {
 		case CameraMode.OculusRift:
 			oculusCamera.SetActive(true);
 			diveCamera.SetActive(false);
+			break;
+
+		case CameraMode.MeshBarrelDistortion:
+			oculusCamera.SetActive(false);
+			diveCamera.SetActive(true);
+
+			// TODO dive camera를 조작해서 mesh 기반 렌더링을 할수있도록 만든다
+			break;
+
+		default:
 			break;
 		}
 	}

@@ -23,7 +23,10 @@ public class CameraEditorWindow : Editor {
 		Undo.RecordObject(component, "DIOCameraController");
 		{
 #if CUSTOM_LAYOUT
-			component.cameraMode = (CameraMode)EditorGUILayout.EnumPopup("Editor Camera Mode", component.cameraMode);
+			component.editorCameraMode = (CameraMode)EditorGUILayout.EnumPopup("Unity Editor Camera", component.editorCameraMode);
+			component.androidCameraMode = (CameraMode)EditorGUILayout.EnumPopup("Android Camera", component.androidCameraMode);
+			component.iosCameraMode = (CameraMode)EditorGUILayout.EnumPopup("iOS Camera", component.iosCameraMode);
+			component.desktopCameraMode = (CameraMode)EditorGUILayout.EnumPopup("Desktop Standalone Camera", component.desktopCameraMode);
 			//OVREditorGUIUtility.Separator();	
 #else
 			DrawDefaultInspector ();
