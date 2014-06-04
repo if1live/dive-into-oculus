@@ -5,8 +5,10 @@ public class MeshTest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		BaseGridGenerator generator = new UniformGridGenerator ();
-		Mesh mesh = generator.CreateBase (4, 3);
+		//BaseCoordConverter converter = new UniformCoordConverter ();
+		BaseCoordConverter converter = new NonUniformCoordConverter (NonUniformEaseType.Quad);
+		GridGenerator generator = new GridGenerator (converter);
+		Mesh mesh = generator.CreateBase (40, 40);
 		MeshFilter filter = GetComponent<MeshFilter> ();
 		filter.mesh = mesh;
 	}

@@ -1,8 +1,109 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.Diagnostics;
 
-public abstract class BaseGridGenerator 
+public abstract class BaseCoordConverter 
 {
+	/*
+	 * [-1,1]의 일정 간격의 값을 적절한 vertex 좌표용 값으로 변환하는 함수
+	 */
+	public abstract float ConvertVertexPos (float val);
+	/*
+	 * [0,1]의 일정한 간격의 값을 적절한 texcoord coord 값으로 변환하는 함수
+	 */
+	public float ConvertTexcoordCoord(float val)
+	{
+		float t = (val * 2.0f) - 1.0f;
+		return ConvertVertexPos (t);
+	}
+}
+
+public class UniformCoordConverter : BaseCoordConverter 
+{
+	public override float ConvertVertexPos (float val) 
+	{
+		return val;
+	}
+}
+
+public enum NonUniformEaseType {
+	Expo,
+	Quartic,
+	Cubic,
+	Quad,
+	Circular
+}
+
+public class NonUniformCoordConverter : BaseCoordConverter 
+{
+	/*
+	 * https://raw.githubusercontent.com/prideout/distortion/master/media/NonuniformGrid.png
+	 * 와 같이 가운데로 갈수록 밀집되는 grid를 생성하는데 이용한다
+	 * out과 in을 동시에 사용하는 이유는 가운데 구간만 밀집 시키기 위해서이다.
+	 * 
+	 * http://easings.net/
+	 * http://www.robertpenner.com/easing/
+	 */
+	public NonUniformEaseType easeType;
+	public NonUniformCoordConverter(NonUniformEaseType easeType)
+	{
+		this.easeType = easeType;
+	}
+
+	public override float ConvertVertexPos (float val) 
+	{
+		if (val < 0) {
+			float curr = val + 1.0f;
+			float startValue = -1.0f;
+			float length = 1.0f;
+
+			switch(easeType) {
+			case NonUniformEaseType.Expo:
+				return Ease.ExpoEaseOut(curr, startValue, length);
+			case NonUniformEaseType.Quartic:
+				return Ease.QuartEaseOut(curr, startValue, length);
+			case NonUniformEaseType.Cubic:
+				return Ease.CubicEaseOut(curr, startValue, length);
+			case NonUniformEaseType.Quad:
+				return Ease.QuadEaseOut(curr, startValue, length);
+			case NonUniformEaseType.Circular:
+				return Ease.CircEaseOut(curr, startValue, length);
+			default:
+				return -1;
+			}
+
+		} else {
+			float curr = val;
+			float startValue = 0.0f;
+			float length = 1.0f;
+
+			switch(easeType) {
+			case NonUniformEaseType.Expo:
+				return Ease.ExpoEaseIn(curr, startValue, length);
+			case NonUniformEaseType.Quartic:
+				return Ease.QuartEaseIn(curr, startValue, length);
+			case NonUniformEaseType.Cubic:
+				return Ease.CubicEaseIn(curr, startValue, length);
+			case NonUniformEaseType.Quad:
+				return Ease.QuadEaseIn(curr, startValue, length);
+			case NonUniformEaseType.Circular:
+				return Ease.CircEaseIn(curr, startValue, length);
+			default:
+				return -1;
+			}
+		}
+	}
+}
+
+public class GridGenerator 
+{
+	BaseCoordConverter coordConverter;
+
+	public GridGenerator(BaseCoordConverter converter) {
+		this.coordConverter = converter;
+	}
+
     public Mesh CreateMesh(float w, float h, int splitX, int splitY)
     {
         Mesh mesh = CreateBase(splitX, splitY);
@@ -22,12 +123,7 @@ public abstract class BaseGridGenerator
     /*
      * [-1,1] 영역의 grid mesh 만들어내는 함수
      */
-    public abstract Mesh CreateBase(int splitX, int splitY);
-}
-
-public class UniformGridGenerator : BaseGridGenerator
-{
-    public override Mesh CreateBase(int splitX, int splitY)
+    public Mesh CreateBase(int splitX, int splitY)
     {
         /*
          * vertex position
@@ -53,7 +149,10 @@ public class UniformGridGenerator : BaseGridGenerator
                 int idx = i + j * (splitX + 1);
                 float x = (gridVertexWidth * i) - 1.0f;
                 float y = (gridVertexHeight * j) - 1.0f;
-                Vector3 vert = new Vector3(x, y, 0);
+
+				float vertX = coordConverter.ConvertVertexPos(x);
+				float vertY = coordConverter.ConvertVertexPos(y);
+                Vector3 vert = new Vector3(vertX, vertY, 0);
                 vertices[idx] = vert;
             }
         }
@@ -103,7 +202,9 @@ public class UniformGridGenerator : BaseGridGenerator
                 int idx = i + j * (splitX + 1);
                 float s = i * gridTexcoordWidth;
                 float t = j * gridTexcoordHeight;
-                Vector2 texcoord = new Vector2(s, t);
+				float u = coordConverter.ConvertTexcoordCoord(s);
+				float v = coordConverter.ConvertTexcoordCoord(t);
+                Vector2 texcoord = new Vector2(u, v);
                 uv[idx] = texcoord;
             }
         }
@@ -113,13 +214,3 @@ public class UniformGridGenerator : BaseGridGenerator
         return mesh;
     }
 }
-/*
-public class NonUniformGridGenerator : BaseGridGenerator
-{
-    public Mesh CreateBase(int splitX, int splitY)
-    {
-        Mesh mesh = new Mesh();
-        return mesh;
-    }
-}
-*/
